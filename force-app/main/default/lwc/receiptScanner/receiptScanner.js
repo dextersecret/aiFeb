@@ -8,6 +8,11 @@ export default class ReceiptScanner extends LightningElement {
     @track lineItems = [];
     @track contentDocumentId;
 
+    // Computed property for subtotal
+    get subtotal() {
+        return this.lineItems.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
+    }
+
     // Handle file upload and generate preview
     handleUploadFinished(event) {
         const uploadedFile = event.detail.files[0];
@@ -16,19 +21,17 @@ export default class ReceiptScanner extends LightningElement {
         this.imageUploaded = true;
     }
 
-    get enableProcessing() {
-        return !this.imageUploaded;
-    }
-    // Process receipt with Google Vision
+    // Process receipt with xAI Grok Vision
     handleProcessReceipt() {
         processReceipt({ contentDocumentId: this.contentDocumentId })
             .then(result => {
                 const parsedResult = JSON.parse(result);
-                this.lineItems = parsedResult.lineItems.map((item, index) => ({
+                let parsedLineItems = parsedResult.lineItems.map((item, index) => ({
                     id: index,
                     name: item.name,
                     price: item.price
                 }));
+                this.lineItems.push(...parsedLineItems);
             })
             .catch(error => {
                 this.showToast('Error', error.body.message, 'error');
@@ -46,7 +49,7 @@ export default class ReceiptScanner extends LightningElement {
     handlePriceChange(event) {
         const index = event.target.dataset.index;
         this.lineItems[index].price = parseFloat(event.target.value) || 0;
-        this.lineItems = [...this.lineItems];
+        this.lineItems = [...this.lineItems]; // Trigger reactivity
     }
 
     // Remove line item

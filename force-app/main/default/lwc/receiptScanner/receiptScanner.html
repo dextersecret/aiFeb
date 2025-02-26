@@ -64,6 +64,16 @@
                                 variant="success"
                                 onclick={handleAddItem}
                             ></lightning-button>
+                            <!-- Subtotal Display -->
+                            <div class="slds-m-top_medium subtotal">
+                                <lightning-formatted-number
+                                    format-style="currency"
+                                    currency-code="GBP"
+                                    value={subtotal}
+                                    class="slds-text-heading_small"
+                                ></lightning-formatted-number>
+                                <span class="slds-text-body_regular"> Subtotal</span>
+                            </div>
                         </div>
                     </template>
                 </div>
