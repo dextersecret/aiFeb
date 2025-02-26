@@ -3,3 +3,7 @@
     width: auto;
     margin-top: 10px;
 }
+.subtotal {
+    font-weight: bold;
+    text-align: right;
+}
