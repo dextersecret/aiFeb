@@ -6,7 +6,8 @@ public class ReceiptProcessor {
         Blob receiptImage = cv.VersionData;
 
         // xAI Grok Vision API setup
-        String apiKey = ''; // Store securely in Named Credentials or Custom Settings
+        Grok__mdt credentials = [Select key__c FROM Grok__mdt WHERE MasterLabel = 'vision' LIMIT 1];
+        String apiKey = credentials.key__c; // Store securely in Named Credentials or Custom Settings
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.x.ai/v1/chat/completions'); // xAI's REST endpoint
         req.setMethod('POST');
