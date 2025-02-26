@@ -1,0 +1,13 @@
+{
+  "orgName": "GenAI Scratch Org",
+  "edition": "Partner Developer",
+  "features": ["Einstein1AIPlatform", "EnableSetPasswordInApi"],
+  "settings": {
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "einsteinGptSettings" : {
+      "enableEinsteinGptPlatform" : true
+    }
+  }
+}

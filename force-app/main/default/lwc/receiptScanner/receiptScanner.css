@@ -1,0 +1,5 @@
+.preview-image {
+    max-height: 300px; /* Fixed height for preview */
+    width: auto;
+    margin-top: 10px;
+}

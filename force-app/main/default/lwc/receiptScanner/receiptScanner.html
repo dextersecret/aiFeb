@@ -1,0 +1,73 @@
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item size="6" padding="around-small">
+            <!-- Left Column: Upload and Preview -->
+            <lightning-card title="Upload Receipt">
+                <div class="slds-p-around_medium">
+                    <lightning-file-upload
+                        label="Upload Receipt Image"
+                        name="fileUploader"
+                        accept=".jpg,.png,.jpeg"
+                        onuploadfinished={handleUploadFinished}
+                    ></lightning-file-upload>
+                    <template if:true={imageUrl}>
+                        <img src={imageUrl} alt="Receipt Preview" class="preview-image" />
+                    </template>
+                </div>
+            </lightning-card>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="6" padding="around-small">
+            <!-- Right Column: Process and Line Items -->
+            <lightning-card title="Receipt Details">
+                <div class="slds-p-around_medium">
+                    <lightning-button
+                        label="Process Receipt"
+                        variant="brand"
+                        onclick={handleProcessReceipt}
+                        disabled={enableProcessing}
+                    ></lightning-button>
+                    <template if:true={lineItems}>
+                        <div class="slds-m-top_medium">
+                            <template for:each={lineItems} for:item="item" for:index="index">
+                                <div key={item.id} class="slds-grid slds-gutters slds-m-bottom_small">
+                                    <div class="slds-col">
+                                        <lightning-input
+                                            label="Name"
+                                            value={item.name}
+                                            onchange={handleNameChange}
+                                            data-index={index}
+                                        ></lightning-input>
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-input
+                                            label="Price"
+                                            type="number"
+                                            step="0.01"
+                                            value={item.price}
+                                            onchange={handlePriceChange}
+                                            data-index={index}
+                                        ></lightning-input>
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-6 slds-p-top_large">
+                                        <lightning-button
+                                            label="Remove"
+                                            variant="destructive"
+                                            onclick={handleRemoveItem}
+                                            data-index={index}
+                                        ></lightning-button>
+                                    </div>
+                                </div>
+                            </template>
+                            <lightning-button
+                                label="Add Item"
+                                variant="success"
+                                onclick={handleAddItem}
+                            ></lightning-button>
+                        </div>
+                    </template>
+                </div>
+            </lightning-card>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
